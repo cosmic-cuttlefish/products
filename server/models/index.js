@@ -27,8 +27,13 @@ module.exports = {
       })
     },
   
-    // getProduct: () => {
-    // },
+    singleProduct: (params, cb) => {
+      const queryStr = 'SELECT * FROM products WHERE id = $1';
+
+      dbPool.query(queryStr, params, (err, results) => {
+        cb(err, results);
+      })
+    }
   }
 
   // productStyles: {

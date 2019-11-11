@@ -10,6 +10,17 @@ module.exports = {
           res.send(results)
         }
       })
+    },
+
+    getSingleProduct: (req, res) => {
+      let params = [req.params.product_id]
+      models.products.singleProduct(params, (err, results) => {
+        if (err) {
+          console.error("error getting product: ", err);
+        } else {
+          res.send(results);
+        }
+      })
     }
   }
 }
