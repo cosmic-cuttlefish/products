@@ -14,8 +14,21 @@ module.exports = {
       console.log("req.params: ", req.params)
       let params = [req.params.product_id]
       models.products.singleProduct(params)
-      .then(results => {
-        res.send(results.rows);
+      .then(productResults => {
+        console.log("got product");
+        models.products.productFeatures(params)
+        .then(featureResults => {
+          console.log("got features");
+          let results = productResults.rows.map(product => {
+            product.features = [];
+
+            featureResults.rows.forEach(feature => {
+              return product.features.push({"feature": feature.feature, "value": feature.value})
+            })
+            return product;
+          })
+          res.send(results);
+        }) 
       })
       .catch(err => console.error(err))
     }
@@ -42,7 +55,6 @@ module.exports = {
                   return style.photos.push({"url": photo.url, "thumbnail_url": photo.thumbnail_url})
                 }
               })
-
               skus.rows.forEach(sku => {
                 if (sku.style_id === style.id) {
                   return style.skus[sku.size] = sku.quantity;
@@ -56,5 +68,19 @@ module.exports = {
       })
       .catch(err => console.error(err))
     }
+  },
+
+  relatedProducts: {
+    getRelatedProducts: (req, res) => {
+    let params = [req.params.product_id]
+    models.relatedProducts.getRelatedProducts(params)
+    .then(results => {
+      res.send(results.rows.reduce((acc, related) => {
+        acc.push(related.related_product_id)
+        return acc;
+      },[]))
+    })
+    .catch(err => console.error(err));
   }
+  } 
 }
