@@ -1,21 +1,3 @@
-/* 
-Get all products:
-  GET products/list
-  page	integer	Selects the page of results to return. Default 1.
-  count	integer	Specifies how many results per page to return. Default 5.
-
-Get single product:
-  GET products/:productID
-  product_id	integer	Required ID of the Product requested
-
-Get product styles:
-  GET /products/:product_id/styles
-  product_id	integer	Required ID of the Product requested
-
-Get related products
-  GET /products/:product_id/related
-  product_id	integer	Required ID of the Product requested
-*/
 const dbPool = require('../../database/index.js');
 
 module.exports = {
@@ -31,27 +13,26 @@ module.exports = {
     }
   },
 
-  // styles: {
-  //   productStyles: (params, cb) => {
-  //     const stylesQuery = "SELECT * FROM styles WHERE product_id = $1";
+  styles: {
+    productStyles: (params) => {
+      const stylesQuery = "SELECT * FROM styles WHERE product_id = $1";
+      // const stylesQuery = "SELECT St.id as style_id, St.default_style, St.name, St.sale_price, St.original_price, (SELECT ARRAY( SELECT json_object_agg('thumbnail_url', photos.thumbnail_url), json_object_agg('url', photos.url) FROM photos  WHERE photos.style_id = St.id) as photos) FROM styles St WHERE St.product_id = $1"
+      // const stylesQuery = "SELEC"
+      return dbPool.query(stylesQuery, params)
+    },
 
-  //     dbPool.query(stylesQuery, params, (err, results) => {
-  //       cb(err, results);
-  //     })
-  //   },
+    stylePhotos: (params) => {
+      const photosQuery = "SELECT * FROM photos WHERE photos.style_id IN (SELECT styles.id FROM styles WHERE styles.product_id = $1)";
+      
+      return dbPool.query(photosQuery, params)
+    },
 
-  //   stylePhotos: (params, cb) => {
-  //     const photosQuery = "SELECT url, thumbnail_url FROM photos WHERE photos.style_id IN (SELECT styles.id FROM styles WHERE styles.product_id = $1)";
-  //     dbPool.query(photosQuery, params, (err, results) => {
-  //       cb(err, results);
-  //     })
-  //   },
+    styleSkus: (params) => {
+      const skusQuery = "SELECT * FROM skus WHERE skus.style_id IN (SELECT styles.id FROM styles WHERE styles.product_id = $1)";
 
-  //   styleSkus: (params) => {
-  //     const skusQuery = "SELECT size, quantity FROM skus WHERE skus.style_id IN (SELECT styles.id FROM styles WHERE styles.product_id = $1);"
-  //     dbPool.query(skusQuery, params);
-  //   }
-  // },
+      return dbPool.query(skusQuery, params);
+    }
+  },
 
   // relatedProducts: {
   //   getRelatedProducts: () => {

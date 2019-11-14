@@ -5,7 +5,7 @@
 -- Dumped from database version 11.5
 -- Dumped by pg_dump version 12.0
 
--- Started on 2019-11-09 16:49:30 EST
+-- Started on 2019-11-13 20:45:00 EST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -52,7 +52,7 @@ CREATE SEQUENCE public.features_id_seq
 ALTER TABLE public.features_id_seq OWNER TO moyseos;
 
 --
--- TOC entry 3216 (class 0 OID 0)
+-- TOC entry 3224 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: features_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moyseos
 --
@@ -92,7 +92,7 @@ CREATE SEQUENCE public.photos_id_seq
 ALTER TABLE public.photos_id_seq OWNER TO moyseos;
 
 --
--- TOC entry 3217 (class 0 OID 0)
+-- TOC entry 3225 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: photos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moyseos
 --
@@ -134,7 +134,7 @@ CREATE SEQUENCE public.products_id_seq
 ALTER TABLE public.products_id_seq OWNER TO moyseos;
 
 --
--- TOC entry 3218 (class 0 OID 0)
+-- TOC entry 3226 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moyseos
 --
@@ -173,7 +173,7 @@ CREATE SEQUENCE public.related_products_id_seq
 ALTER TABLE public.related_products_id_seq OWNER TO moyseos;
 
 --
--- TOC entry 3219 (class 0 OID 0)
+-- TOC entry 3227 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: related_products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moyseos
 --
@@ -213,7 +213,7 @@ CREATE SEQUENCE public.skus_id_seq
 ALTER TABLE public.skus_id_seq OWNER TO moyseos;
 
 --
--- TOC entry 3220 (class 0 OID 0)
+-- TOC entry 3228 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: skus_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moyseos
 --
@@ -255,7 +255,7 @@ CREATE SEQUENCE public.styles_id_seq
 ALTER TABLE public.styles_id_seq OWNER TO moyseos;
 
 --
--- TOC entry 3221 (class 0 OID 0)
+-- TOC entry 3229 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: styles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moyseos
 --
@@ -312,7 +312,7 @@ ALTER TABLE ONLY public.styles ALTER COLUMN id SET DEFAULT nextval('public.style
 
 
 --
--- TOC entry 3078 (class 2606 OID 21996)
+-- TOC entry 3080 (class 2606 OID 21996)
 -- Name: features features_pkey; Type: CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -321,7 +321,7 @@ ALTER TABLE ONLY public.features
 
 
 --
--- TOC entry 3082 (class 2606 OID 22025)
+-- TOC entry 3088 (class 2606 OID 22025)
 -- Name: photos photos_pkey; Type: CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -330,7 +330,7 @@ ALTER TABLE ONLY public.photos
 
 
 --
--- TOC entry 3076 (class 2606 OID 21988)
+-- TOC entry 3078 (class 2606 OID 21988)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -339,7 +339,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 3086 (class 2606 OID 22046)
+-- TOC entry 3094 (class 2606 OID 22046)
 -- Name: related_products related_products_pkey; Type: CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -348,7 +348,7 @@ ALTER TABLE ONLY public.related_products
 
 
 --
--- TOC entry 3084 (class 2606 OID 22038)
+-- TOC entry 3092 (class 2606 OID 22038)
 -- Name: skus skus_pkey; Type: CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -357,7 +357,7 @@ ALTER TABLE ONLY public.skus
 
 
 --
--- TOC entry 3080 (class 2606 OID 22009)
+-- TOC entry 3084 (class 2606 OID 22009)
 -- Name: styles styles_pkey; Type: CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -366,7 +366,71 @@ ALTER TABLE ONLY public.styles
 
 
 --
--- TOC entry 3087 (class 2606 OID 21997)
+-- TOC entry 3085 (class 1259 OID 22099)
+-- Name: index_photos; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_photos ON public.photos USING btree (id) INCLUDE (id);
+
+
+--
+-- TOC entry 3075 (class 1259 OID 22096)
+-- Name: index_product; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_product ON public.products USING btree (name) INCLUDE (id);
+
+
+--
+-- TOC entry 3081 (class 1259 OID 22103)
+-- Name: index_product_id; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_product_id ON public.styles USING btree (product_id) INCLUDE (product_id);
+
+
+--
+-- TOC entry 3076 (class 1259 OID 22100)
+-- Name: index_products; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_products ON public.products USING btree (id) INCLUDE (id);
+
+
+--
+-- TOC entry 3089 (class 1259 OID 22098)
+-- Name: index_skus; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_skus ON public.skus USING btree (id) INCLUDE (id);
+
+
+--
+-- TOC entry 3086 (class 1259 OID 22104)
+-- Name: index_style_id; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_style_id ON public.photos USING btree (style_id) INCLUDE (style_id);
+
+
+--
+-- TOC entry 3090 (class 1259 OID 22105)
+-- Name: index_style_id_in_skus; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_style_id_in_skus ON public.skus USING btree (style_id) INCLUDE (style_id);
+
+
+--
+-- TOC entry 3082 (class 1259 OID 22101)
+-- Name: index_styles; Type: INDEX; Schema: public; Owner: moyseos
+--
+
+CREATE INDEX index_styles ON public.styles USING btree (id) INCLUDE (id);
+
+
+--
+-- TOC entry 3095 (class 2606 OID 21997)
 -- Name: features features_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -375,7 +439,7 @@ ALTER TABLE ONLY public.features
 
 
 --
--- TOC entry 3089 (class 2606 OID 22026)
+-- TOC entry 3097 (class 2606 OID 22026)
 -- Name: photos photos_style_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -384,7 +448,7 @@ ALTER TABLE ONLY public.photos
 
 
 --
--- TOC entry 3088 (class 2606 OID 22010)
+-- TOC entry 3096 (class 2606 OID 22010)
 -- Name: styles styles_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: moyseos
 --
 
@@ -392,7 +456,7 @@ ALTER TABLE ONLY public.styles
     ADD CONSTRAINT styles_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
 
 
--- Completed on 2019-11-09 16:49:31 EST
+-- Completed on 2019-11-13 20:45:01 EST
 
 --
 -- PostgreSQL database dump complete
