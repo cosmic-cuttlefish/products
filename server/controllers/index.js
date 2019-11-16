@@ -1,5 +1,5 @@
 const models = require('../models')
-
+// TODO: Farther modulirize into three seperate files.
 module.exports = {
   products: {
     getListOfProducts: (reg, res) => {
@@ -41,6 +41,7 @@ module.exports = {
       // when they all resolve map through the styles array, iterate through the photos 
       // check if a photo's style_id equals the style's id and if it does add it into the photos
       // do the same for skus and return the final results array.
+      // TODO: Refactor to use Promise.all()
       models.styles.productStyles(params)
       .then(stylesResults => {
         models.styles.stylePhotos(params)

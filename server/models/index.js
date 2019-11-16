@@ -1,5 +1,5 @@
 const dbPool = require('../../database/index.js');
-
+// TODO: Farther modulirize into three seperate files.
 module.exports = {
   products: {
     listProducts: () => {
