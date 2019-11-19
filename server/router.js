@@ -1,8 +1,11 @@
-const controllers = require('./controllers')
+const {productsController} = require('./controllers/productsController')
+const {stylesController} = require('./controllers/stylesController')
+const {relatedProductsController} = require('./controllers/relatedController')
 const router = require('express').Router();
 
-router.get('/list', controllers.products.getListOfProducts)
-router.get('/:product_id', controllers.products.getSingleProduct)
-router.get('/:product_id/styles', controllers.styles.getProductStyles)
-router.get('/:product_id/related', controllers.relatedProducts.getRelatedProducts)
+router.get('/list', productsController.getListOfProducts)
+router.get('/:product_id', productsController.getSingleProduct)
+router.get('/:product_id/styles', stylesController.getProductStyles)
+router.get('/:product_id/related', relatedProductsController.getRelatedProducts)
+
 module.exports = router;
